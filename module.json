@@ -1,0 +1,19 @@
+{
+  "id": "parallax-tiles",
+  "title": "Parallax Tiles",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "authors": [
+    {
+      "name": "EndlesNights",
+      "email": "endlesnights@gmail.com",
+      "url": "https://github.com/EndlesNights",
+      "discord": "endlesnights#9000",
+      "flags": {}
+    }
+  ],
+	"esmodules":["main.js"]
+}
