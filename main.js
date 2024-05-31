@@ -32,7 +32,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 	<div class="tab" data-tab="parallax">
 		<p class="notes">Parallax-Tile Options Here.</p>
 		<div class="form-group">
-			<label>Enable Parallax Tiles</label>
+			<label>Enable Parallax Tile</label>
 			<div class="form-fields">
 				<input type="checkbox" name="flags.${MODULE_ID}.enable" ${enableCheckbox}>
 			</div>
@@ -43,7 +43,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 			<div class="form-fields">
 				<input type="number" step="any" name="flags.${MODULE_ID}.maxDisplacement" value="${maxDisplacement}" placeholder="${getDefaultMaxDisplacement()}">
 			</div>
-			<p class="hint">The maxiume value measurned in pixels that the token can be displaced from its origin. (Default to scene grid size)</p>
+			<p class="hint">The maximum value in pixels that the token can be displaced from its origin. (Default to scene grid size)</p>
 		</div>	
 
 		<div class="form-group">
@@ -51,7 +51,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 			<div class="form-fields">
 				<input type="number" step="any" name="flags.${MODULE_ID}.parallaxFactor" value="${parallaxFactor}">
 			</div>
-			<p class="hint">The stength of the parallax in respect to the realtivie posistion canvas</p>
+			<p class="hint">The strength of the parallax in respect to the relative positions canvas.</p>
 		</div>
 
 		<div class="form-group">
