@@ -49,7 +49,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 		<div class="form-group">
 			<label>Parallax Factor</label>
 			<div class="form-fields">
-				<input type="number" step="any" name="flags.${MODULE_ID}.parallaxFactor" value="${parallaxFactor}">
+				<input type="number" step="0.1" name="flags.${MODULE_ID}.parallaxFactor" value="${parallaxFactor}">
 			</div>
 			<p class="hint">The strength of the parallax in respect to the relative positions canvas.</p>
 		</div>
