@@ -15,8 +15,8 @@
       "flags": {}
     }
   ],
-	"esmodules":["main.js"],
+  "esmodules":["main.js"],
   "url": "https://github.com/EndlesNights/parallax-tiles",
-	"manifest": "https://raw.githubusercontent.com/EndlesNights/parallax-tiles/main/module.json",
-	"download": "https://github.com/EndlesNights/parallax-tiles/archive/0.0.1.zip"
+  "manifest": "https://raw.githubusercontent.com/EndlesNights/parallax-tiles/main/module.json",
+  "download": "https://github.com/EndlesNights/parallax-tiles/archive/0.0.1.zip"
 }
