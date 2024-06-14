@@ -1,7 +1,8 @@
 {
   "id": "parallax-tiles",
   "title": "Parallax Tiles",
-  "version": "0.0.1",
+  "description": " Creates a perceived scenes of parallax and depth of motion to tiles, based on the retaliative position of the canvas view.",
+  "version": "0.1.0",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
@@ -18,5 +19,5 @@
   "esmodules":["main.js"],
   "url": "https://github.com/EndlesNights/parallax-tiles",
   "manifest": "https://raw.githubusercontent.com/EndlesNights/parallax-tiles/main/module.json",
-  "download": "https://github.com/EndlesNights/parallax-tiles/archive/0.0.1.zip"
+  "download": "https://github.com/EndlesNights/parallax-tiles/archive/0.1.0.zip"
 }
