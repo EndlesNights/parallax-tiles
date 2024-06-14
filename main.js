@@ -1,7 +1,10 @@
-const MODULE_ID = "parallax-tiles";
+const MODULE_ID = `parallax-tiles`;
+
+Hooks.once('setup', registerModuleSettings);
 
 Hooks.once("init", async function() {
 	console.log("parallax Module Test");
+	
 	game.parallaxTiles = {
 		getParallaxTiles,
 		parallaxafyTileArray,
@@ -85,18 +88,21 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 });
 
 Hooks.on("ready",() =>{
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	game.parallaxTiles.parallaxTileArray = getParallaxTiles();
 	parallaxafyTileArray();
 });
 
 //For the preveiw
 Hooks.on("refreshTile",() => {
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	game.parallaxTiles.parallaxTileArray = getParallaxTiles();
 	parallaxafyTileArray();
 });
 
 //make the magic happen!
 Hooks.on("canvasPan", (scene, screenPosistion) => {
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	parallaxafyTileArray();
 });
 
@@ -197,18 +203,38 @@ function getDefaultMaxDisplacement(){
 
 // will make more efficnet in future, but just refresh the array of tiles
 Hooks.on("deleteTile",() =>{
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	game.parallaxTiles.parallaxTileArray = getParallaxTiles();
 });
 
 Hooks.on("createTile",() =>{
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	game.parallaxTiles.parallaxTileArray = getParallaxTiles();
 });
 
 Hooks.on("drawTilesLayer",() =>{
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	game.parallaxTiles.parallaxTileArray = getParallaxTiles();
 });
 
 //clear the array on canvasTearDown
 Hooks.on("canvasTearDown",() =>{
+	if(!game.settings.get(MODULE_ID, "enableClient")) return;
 	game.parallaxTiles.parallaxTileArray = [];
 });
+
+
+function registerModuleSettings() {
+
+	game.settings.register(MODULE_ID, "enableClient", {
+		name: "Enable on Client",
+		hint: "Enables Parallax Tiles to render on this game client.",
+		scope: "client",
+		config: true,
+		type: Boolean,
+
+		default: true,
+		onChange: () => canvas.draw(),
+	});
+
+}
