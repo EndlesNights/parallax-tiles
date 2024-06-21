@@ -129,7 +129,7 @@ function computeParallaxFactor(input, tile){
 		return Number(input);
 	}
 
-	input = input.replaceAll("@elevation", tile.elevation);
+	input = input.replaceAll("@elevation", Math.abs(tile.elevation));
 	let r = new Roll(input);
 	if(r.isDeterministic){
 		r.evaluateSync();
