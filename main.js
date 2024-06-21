@@ -26,7 +26,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 	const enableCheckbox = app.document.getFlag(MODULE_ID, "enable") ? "checked" : "";
 	const modeSelector = app.document.getFlag(MODULE_ID, "mode") || 0
 	const maxDisplacement = app.document.getFlag(MODULE_ID, "maxDisplacement") ?? getDefaultMaxDisplacement(); //make this default to 1 grid of px
-	const parallaxFactor = app.document.getFlag(MODULE_ID, "parallaxFactor") ?? 1;
+	const parallaxFactor = app.document.getFlag(MODULE_ID, "parallaxFactor") ?? game.settings.get(MODULE_ID, "defaultParallaxFactor");
 	const lockX = app.document.getFlag(MODULE_ID, "lockX") ? "checked" : "";
 	const lockY = app.document.getFlag(MODULE_ID, "lockY") ? "checked" : "";
 
@@ -65,9 +65,9 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 		<div class="form-group">
 			<label>Parallax Factor</label>
 			<div class="form-fields">
-				<input type="number" step="0.1" name="flags.${MODULE_ID}.parallaxFactor" value="${parallaxFactor}">
+				<input type="text" step="0.1" name="flags.${MODULE_ID}.parallaxFactor" value="${parallaxFactor}" placeholder="${game.settings.get(MODULE_ID, "defaultParallaxFactor")}">
 			</div>
-			<p class="hint">The strength of the parallax in respect to the relative positions canvas.</p>
+			<p class="hint">Equation for determining the strength of the parallax in respect to the relative positions canvas.</p>
 		</div>
 
 		<div class="form-group">
@@ -82,7 +82,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 				<input type="checkbox" name="flags.${MODULE_ID}.lockY" ${lockY}>
 			</div>
 		</div>	
-	</div>    
+	</div>		
 	`);
 
 });
@@ -120,10 +120,33 @@ function parallaxafyTile(tile){
 	}
 }
 
+function computeParallaxFactor(input, tile){
+
+	if(!input) return game.settings.get(MODULE_ID, "defaultParallaxFactor");
+
+	// Check if the input is only a number
+	if (!isNaN(input)) {
+		return Number(input);
+	}
+
+	input = input.replaceAll("@elevation", tile.elevation);
+	let r = new Roll(input);
+	if(r.isDeterministic){
+		r.evaluateSync();
+		return r.total;
+	}
+
+	// ui.notifications.warn(`Error with input for Parallax Factor equation for ${tile.uuid}. Using default equation instead.`); // THESE ARE WAYYYY TO FUCKING MUCH HOLY SHIT!
+	console.warn(`Error with input for Parallax Factor equation for ${tile.uuid}. Using default equation instead.`);
+
+	return game.settings.get(MODULE_ID, "defaultParallaxFactor"); //"Input is neither a number nor a valid mathematical equation"
+}
+
 function parallaxafyTileMesh(tile){
 	const lockX = tile.getFlag(MODULE_ID, "lockX");
 	const lockY = tile.getFlag(MODULE_ID, "lockY");
-	const parallaxFactor = tile.getFlag(MODULE_ID, "parallaxFactor") ?? 1;
+	const parallaxFactor = computeParallaxFactor(tile.getFlag(MODULE_ID, "parallaxFactor"), tile);
+
 	const maxOffset = tile.getFlag(MODULE_ID, "maxDisplacement") ?? getDefaultMaxDisplacement();
 	
 	if(lockX && lockY || !parallaxFactor || !maxOffset) return;
@@ -152,7 +175,7 @@ function parallaxafyTileMesh(tile){
 function parallaxafyTileTexture(tile){
 	const lockX = tile.getFlag(MODULE_ID, "lockX");
 	const lockY = tile.getFlag(MODULE_ID, "lockY");
-	const parallaxFactor = tile.getFlag(MODULE_ID, "parallaxFactor") ?? 1;
+	const parallaxFactor = computeParallaxFactor(tile.getFlag(MODULE_ID, "parallaxFactor"), tile);
 	const maxOffset = tile.getFlag(MODULE_ID, "maxDisplacement") ?? getDefaultMaxDisplacement();
 
 	if(lockX && lockY || !parallaxFactor || !maxOffset) return;
@@ -237,4 +260,13 @@ function registerModuleSettings() {
 		onChange: () => canvas.draw(),
 	});
 
+	game.settings.register(MODULE_ID, "defaultParallaxFactor",{
+		name: "Default Parallax Factor",
+		hint: "Equation for determining the strength of the default parallax Factor. If parallax factor is left blank, this value will be used.",
+		scope: "global",
+		config: true,
+		type: String,
+		default: "1",
+		onChange: () => canvas.draw(),
+	})
 }
