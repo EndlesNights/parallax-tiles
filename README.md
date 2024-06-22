@@ -1,11 +1,13 @@
 ![](https://img.shields.io/badge/Foundry-v12-informational)
 
-# Parallax Tiles - Prototype- v0.1.0
+# Parallax Tiles - Prototype- v0.1.2
 * **Foundry VTT Compatibility**: v12
 * **Author**: EndlesNights#9000
 
 ## Description
 Creates a perceived scenes of parallax and depth of motion to tiles, based on the retaliative position of the canvas view.
+
+### Parallax Options
 
 
 ### Mesh Parallax Mode
