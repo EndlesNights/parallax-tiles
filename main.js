@@ -67,7 +67,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 			<div class="form-fields">
 				<input type="text" step="0.1" name="flags.${MODULE_ID}.parallaxFactor" value="${parallaxFactor}" placeholder="${game.settings.get(MODULE_ID, "defaultParallaxFactor")}">
 			</div>
-			<p class="hint">Equation for determining the strength of the parallax in respect to the relative positions canvas.\nFor example you may enter <code>@elevation * 0.1</code> wich will use 1/10th of the tiles elevation value for the Parallax Factor.</p>
+			<p class="hint">Equation for determining the strength of the parallax in respect to the relative positions canvas.\nFor example you may enter <code>@elevation * 0.1</code> which will use 1/10th of the tiles elevation value for the Parallax Factor.</p>
 		</div>
 
 		<div class="form-group">
