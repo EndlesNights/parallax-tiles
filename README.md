@@ -7,15 +7,14 @@
 ## Description
 Creates a perceived scenes of parallax and depth of motion to tiles, based on the retaliative position of the canvas view.
 
-### Parallax Options
-
+### Parallax Tile Options
+![image](https://github.com/EndlesNights/parallax-tiles/assets/58280840/57964f9e-a6f6-4eac-8949-1d5ace508c8f)
 
 ### Mesh Parallax Mode
 The tile mesh is moved relative to the game world.
 Assets used from [Forgotten Adventures ](https://www.forgotten-adventures.net/)
 
 https://github.com/EndlesNights/parallax-tiles/assets/58280840/17f93760-be3f-4ba5-8cf4-80d5f0ec62da
-
 
 
 ### Texture Parallax Mode
