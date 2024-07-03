@@ -2,9 +2,9 @@
   "id": "parallax-tiles",
   "title": "Parallax Tiles",
   "description": " Creates a perceived scenes of parallax and depth of motion to tiles, based on the retaliative position of the canvas view.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "compatibility": {
-    "minimum": "12",
+    "minimum": "11",
     "verified": "12"
   },
   "authors": [
