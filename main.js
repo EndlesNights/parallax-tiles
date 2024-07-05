@@ -132,7 +132,9 @@ function computeParallaxFactor(input, tile){
 	input = input.replaceAll("@elevation", Math.abs(tile.elevation));
 	let r = new Roll(input);
 	if(r.isDeterministic){
-		r.evaluateSync();
+		if(foundry.utils.isNewerVersion(game.version , 12)) { r.evaluateSync(); } //check version
+		else { r.roll({async : false}); } //v11 support 
+		
 		return r.total;
 	}
 

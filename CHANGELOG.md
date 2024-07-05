@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.4
+- Added backwards support for v11
+
 ## 0.1.2
 - Modified the hint text to explain to better inform users of the equation asspect.
 
