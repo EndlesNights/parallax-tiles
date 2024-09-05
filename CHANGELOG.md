@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.5
+- Minor performance improvment with precomputeding
+
 ## 0.1.4
 - Added backwards support for v11
 

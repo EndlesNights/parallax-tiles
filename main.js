@@ -94,10 +94,17 @@ Hooks.on("ready",() =>{
 });
 
 //For the preveiw
-Hooks.on("refreshTile",() => {
+Hooks.on("refreshTile",(tile) => {
 	if(!game.settings.get(MODULE_ID, "enableClient")) return;
+	preComputeParallaxFactor(tile.document);
+
 	game.parallaxTiles.parallaxTileArray = getParallaxTiles();
 	parallaxafyTileArray();
+});
+
+
+Hooks.on("updateTile", (tile)=>{
+	preComputeParallaxFactor(tile);
 });
 
 //make the magic happen!
@@ -108,7 +115,7 @@ Hooks.on("canvasPan", (scene, screenPosistion) => {
 
 function parallaxafyTileArray(){
 	for(const tile of game.parallaxTiles.parallaxTileArray){
-		parallaxafyTile(tile)
+		parallaxafyTile(tile);
 	}
 }
 
@@ -120,34 +127,42 @@ function parallaxafyTile(tile){
 	}
 }
 
-function computeParallaxFactor(input, tile){
+function preComputeParallaxFactor(tile){
+	const parallaxFactor = tile.getFlag(MODULE_ID, "parallaxFactor");
 
-	if(!input) return game.settings.get(MODULE_ID, "defaultParallaxFactor");
+	if(isEmpty(parallaxFactor) || parallaxFactor === ''){
+		return tile.precomputedParallaxFactor = game.settings.get(MODULE_ID, "defaultParallaxFactor"); //"Input is neither a number nor a valid mathematical equation"
+	}
+
+	let input = tile.getFlag(MODULE_ID, "parallaxFactor");
 
 	// Check if the input is only a number
 	if (!isNaN(input)) {
-		return Number(input);
+		return tile.precomputedParallaxFactor = Number(input);
 	}
 
-	input = input.replaceAll("@elevation", Math.abs(tile.elevation));
-	let r = new Roll(input);
+	let r = new Roll(parallaxFactor.replaceAll("@elevation", Math.abs(tile.elevation)));
+
 	if(r.isDeterministic){
 		if(foundry.utils.isNewerVersion(game.version , 12)) { r.evaluateSync(); } //check version
 		else { r.roll({async : false}); } //v11 support 
-		
-		return r.total;
+
+		return tile.precomputedParallaxFactor = r.total;
 	}
 
-	// ui.notifications.warn(`Error with input for Parallax Factor equation for ${tile.uuid}. Using default equation instead.`); // THESE ARE WAYYYY TO FUCKING MUCH HOLY SHIT!
-	console.warn(`Error with input for Parallax Factor equation for ${tile.uuid}. Using default equation instead.`);
+	return tile.precomputedParallaxFactor = game.settings.get(MODULE_ID, "defaultParallaxFactor"); //"Input is neither a number nor a valid mathematical equation"
+}
 
-	return game.settings.get(MODULE_ID, "defaultParallaxFactor"); //"Input is neither a number nor a valid mathematical equation"
+function computeParallaxFactor(tile){
+	if(tile.precomputedParallaxFactor) return tile.precomputedParallaxFactor;
+
+	return preComputeParallaxFactor(tile);
 }
 
 function parallaxafyTileMesh(tile){
 	const lockX = tile.getFlag(MODULE_ID, "lockX");
 	const lockY = tile.getFlag(MODULE_ID, "lockY");
-	const parallaxFactor = computeParallaxFactor(tile.getFlag(MODULE_ID, "parallaxFactor"), tile);
+	const parallaxFactor = computeParallaxFactor(tile);
 
 	const maxOffset = tile.getFlag(MODULE_ID, "maxDisplacement") ?? getDefaultMaxDisplacement();
 	
@@ -177,7 +192,7 @@ function parallaxafyTileMesh(tile){
 function parallaxafyTileTexture(tile){
 	const lockX = tile.getFlag(MODULE_ID, "lockX");
 	const lockY = tile.getFlag(MODULE_ID, "lockY");
-	const parallaxFactor = computeParallaxFactor(tile.getFlag(MODULE_ID, "parallaxFactor"), tile);
+	const parallaxFactor = computeParallaxFactor(tile);
 	const maxOffset = tile.getFlag(MODULE_ID, "maxDisplacement") ?? getDefaultMaxDisplacement();
 
 	if(lockX && lockY || !parallaxFactor || !maxOffset) return;

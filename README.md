@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Foundry-v12-informational)
 
-# Parallax Tiles - Prototype- v0.1.4
+# Parallax Tiles - Prototype- v0.1.5
 * **Foundry VTT Compatibility**: v12
 * **Author**: EndlesNights#9000
 
