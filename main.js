@@ -16,12 +16,24 @@ Hooks.once("init", async function() {
 Hooks.on("renderTileConfig", (app, html, data) => {
 	html = html[0] ?? html;
 
+	const wasLastActive = app.tabGroups.sheet == 'parallax';
+
 	//create new tab
-	html.querySelector(`.sheet-tabs`).insertAdjacentHTML("beforeend", `
-	<a class="item" data-tab="parallax">
-	<i class="fas fa-stars">
-	</i> Parallax</a>
-	`);
+	if (wasLastActive) {
+		html.form.querySelector(`.sheet-tabs`).insertAdjacentHTML("beforeend", `	
+		<a data-action="tab" data-group="sheet" data-tab="parallax" class="active">
+			<i class="fa-solid fa-house" inert=""></i>
+			<span>Parallax</span>
+		</a>
+		`);
+	} else {
+		html.form.querySelector(`.sheet-tabs`).insertAdjacentHTML("beforeend", `	
+		<a data-action="tab" data-group="sheet" data-tab="parallax">
+			<i class="fa-solid fa-house" inert=""></i>
+			<span>Parallax</span>
+		</a>
+		`);
+	}
 
 	const enableCheckbox = app.document.getFlag(MODULE_ID, "enable") ? "checked" : "";
 	const modeSelector = app.document.getFlag(MODULE_ID, "mode") || 0
@@ -30,10 +42,14 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 	const lockX = app.document.getFlag(MODULE_ID, "lockX") ? "checked" : "";
 	const lockY = app.document.getFlag(MODULE_ID, "lockY") ? "checked" : "";
 
+	let tabActiveOrNot = "tab";
+	if (wasLastActive) {
+		tabActiveOrNot = "tab active";
+	}
 
 	//create tab content
-	html.querySelector(`.sheet-footer`).insertAdjacentHTML("beforebegin", `
-	<div class="tab" data-tab="parallax">
+	html.form.querySelector(`.form-footer`).insertAdjacentHTML("beforebegin", `	
+	<div class="${tabActiveOrNot}" data-group="sheet" data-tab="parallax" data-application-part="parallax">
 		<p class="notes">Parallax-Tile Options Here.</p>
 		<div class="form-group">
 			<label>Enable Parallax Tile</label>
