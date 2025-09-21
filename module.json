@@ -19,5 +19,5 @@
   "esmodules":["main.js"],
   "url": "https://github.com/EndlesNights/parallax-tiles",
   "manifest": "https://raw.githubusercontent.com/EndlesNights/parallax-tiles/main/module.json",
-  "download": "https://github.com/EndlesNights/parallax-tiles/archive/0.1.5.zip"
+  "download": "https://github.com/EndlesNights/parallax-tiles/archive/0.1.6.zip"
 }
